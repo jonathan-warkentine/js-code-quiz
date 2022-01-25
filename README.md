@@ -46,10 +46,10 @@ There a total of 16 functions in this application:
 
 
 ## Outstanding Updates
-[x] Highscore sorting
-[x] description of each function in Readme
-[] introduce a smoother popup feature with fading?
-[] more interesting background/styling
+- [x] Highscore sorting
+- [x] description of each function in Readme
+- [ ] introduce a smoother popup feature with fading?
+- [ ] more interesting background/styling
 
 ## License
 This project is fully open source.
