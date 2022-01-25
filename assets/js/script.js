@@ -55,7 +55,7 @@ const q6 = {
     correctAns: 1,
 }
 
-const questionsOrdered = [q1, q2, q3, q4, q5, q6]; //will be randomized via the assembleQuestions function on the global scope
+const questionsOrdered = [q1, q2, q3, q4, q5, q6]; //will be randomized via the randomizeArray function on the global scope
 var questionsRandom; //to be populated within the startGame() function
 var whichQuestion = 0;
 
@@ -64,8 +64,6 @@ var whichQuestion = 0;
 /* A C T U A L   Q U I Z   G A M E */
 
 // all of the cards are hidden by default in the CSS; unhiding our gamestart card
-// quizCardEl.setAttribute("style", "display: flex"); //here for debugging purposes
-// gameoverCardEl.setAttribute("style", "display: none"); //here for debugging purposes
 gamestartCardEl.setAttribute("style", "display: flex");
 
 
@@ -75,7 +73,7 @@ function startGame () {
     /* SETTING THE STAGE */
     
     //setting up the question setlist
-    questionsRandom = assembleQuestions(questionsOrdered);
+    questionsRandom = randomizeArray(questionsOrdered);
     whichQuestion = 0; //reset the question counter
     //populate the quiz card with a random coding question
     populateQuizCard();
@@ -90,6 +88,21 @@ function startGame () {
     document.querySelector("#time-remaining").textContent = 30; //reset the clock
     document.querySelector("#timer").setAttribute("style", "display: block;"); //displaying the timer
     runningClock = setInterval(runClock, 1000); //starting the clock 
+}
+
+function gameOver (){
+    
+    //stop and hide clock
+    stopClock();
+    
+    //carry the timer value to the score value
+    document.querySelector("#score").textContent = document.querySelector("#time-remaining").textContent;
+
+    //toggling viewing to the gameover card
+    quizCardEl.setAttribute("style", "display: none");
+    gamestartCardEl.setAttribute("style", "display: none");
+    highscoresCardEl.setAttribute("style", "display: none");
+    gameoverCardEl.setAttribute("style", "display: flex");   
 }
 
 function runClock () {
@@ -168,19 +181,6 @@ function showScores (){
 }
 
 function clearScores(){
-    
-    // allscores = [{
-    //     initials: "",
-    //     score: "",
-    // },
-    // {
-    //     initials: "",
-    //     score: ""
-    // }]
-    // allscores.pop();
-    // allscores.pop();
-
-    // localStorage.setItem("allscores", JSON.stringify(allscores));
     localStorage.removeItem("allscores");
     removeChildNodes(highscoresEl);
     showScores();
@@ -223,29 +223,17 @@ function rightAnswer(){
     setTimeout(clearPopup, 2000); //clears the popup message after a delay
 }
 
-function gameOver (){
-    
-    //stop and hide clock
-    stopClock();
-    
-    //carry the timer value to the score value
-    document.querySelector("#score").textContent = document.querySelector("#time-remaining").textContent;
 
-    //toggling viewing to the gameover card
-    quizCardEl.setAttribute("style", "display: none");
-    gamestartCardEl.setAttribute("style", "display: none");
-    highscoresCardEl.setAttribute("style", "display: none");
-    gameoverCardEl.setAttribute("style", "display: flex");   
-}
 
 // U T I L I T Y    F U N C T I O N S //
-function removeChildNodes(highscoresEl){
-    while (highscoresEl.firstChild) {
-        highscoresEl.removeChild(highscoresEl.firstChild);
+// these functions perform simple utilties such as sorting not particular to gameplay
+function removeChildNodes(parentEl){
+    while (parentEl.firstChild) {
+        parentEl.removeChild(parentEl.firstChild);
     }
 }
 
-function assembleQuestions (array) { //assembles in a random order the various questions into an array, algorithm borrowed from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function randomizeArray (array) { //assembles in a random order the various questions into an array, algorithm borrowed from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 
    let currentIndex = array.length,  randomIndex;
       
@@ -273,8 +261,8 @@ function clearPopup(){
     document.querySelector("#popup").setAttribute("style", "display: none;")
 }
 
-function sortScores(allscores){ //algorithm borrowed from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
-    return allscores.sort((a, b) => {return b.score - a.score;
+function sortScores(unsortedScores){ //algorithm borrowed from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
+    return unsortedScores.sort((a, b) => {return b.score - a.score;
     });
 }
 
