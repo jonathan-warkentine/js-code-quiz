@@ -161,6 +161,10 @@ function showScores (){
                 highscoresEl.children[i].textContent = scoretransfer[i].initials +": "+ scoretransfer[i].score;
             }
     }
+    else {
+        highscoresEl.appendChild(document.createElement("LI"));
+        highscoresEl.children[0].textContent = "none";
+    }
 }
 
 function clearScores(){
