@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Code Quiz</title>
+    <link rel="stylesheet" href="./assets/reset.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        <div id="highscores">
+            <button class="view-highscores-button">View High Scores</button>
+        </div>
+
+        <div id="timer">
+            Time: <span id="time-remaining">100</span>
+        </div>
+    </header>
+
+    <main>
+        <section id="gamestart-card" class="card">
+            <h2>Coding Quiz Challenge!</h2>
+            <p>Try to answer the following code-related questions within the time limit. Incorrect answers will penalize your time remaining 10 seconds!</p>
+            <li><button class="playagain-button">New Game!</button></li>
+
+        </section>
+        
+        <section id="quiz-card" class="card">
+            <h2 id="question">Default Question</h2>
+            
+                <ul id="answer-list">
+                    <li><button class="answers">Answer 1</button></li>
+                    <li><button class="answers">Answer 2</button></li>
+                    <li><button class="answers">Answer 3</button></li>
+                    <li><button class="answers">Answer 4</button></li>
+                </ul>
+            
+        </section>
+
+        <section id="gameover-card" class="card">
+            <h2>All Done!</h2>
+            <p>Your Score: <span id="score"></span></p>
+            <form id="initials-form">
+                <label for="initials-collection">Enter your initials:</label>
+                <input placeholder="initials" type="text" name="initials-collection" id="initials-collection"></input>
+                <button type="submit" id="initials-submit-button">Submit</button>
+            </form>
+            <button class="playagain-button">Play Again</button>
+            <button class="view-highscores-button">View High Scores</button>
+
+        </section>
+
+        <section id="highscores-card" class="card">
+            <h2>Highscores:</h2>
+            <ol id="highscores-list">
+            </ol>
+            <button id="clear-scores">Clear High Scores</button>
+            <button class="playagain-button">Play Again!</button>
+        </section>
+
+    </main>
+    
+</body>
+
+<script src="assets/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+</html>

@@ -1,0 +1,69 @@
+/* general styling */
+body {
+    margin: 1%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+ol {
+    list-style: numbers;
+}
+
+li{
+    padding: 2.5px;
+}
+
+button {
+    border-radius: 7px;
+    background-color: purple;
+    color: white;
+}
+
+body header{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    height: 100px;
+}
+
+body main {
+    display: flex;
+    justify-content: center;
+}
+
+#timer{
+    display: none;
+}
+
+.card{
+    width: 50%;
+    padding: 2%;
+
+    /* card display properties (set to none by default to allow for js display toggle) */
+    display: none;
+    flex-flow: column wrap;
+    gap: 15px;
+
+    /* quiz card border */
+    border: 1px black solid;
+    border-radius: 10px;
+}
+
+.card h2 {
+    font-size: x-large;
+    font-weight: bold;
+
+}
+
+#gamestart-card {
+    text-align: center;
+}
+
+#gameover-card{
+    text-align: center;
+}
+
+#initials-form{
+    display: inline-block;
+}
+
