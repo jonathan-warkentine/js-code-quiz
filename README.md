@@ -23,6 +23,15 @@ If all questions have been attempted, or if the time remaining gets to 0, then g
 
 The CSS styling is responsive, adapting for viewing on mobile devices.
 
+There a total of 16 functions in this application:
+`function startGame ()` calls the functions necessary to reset all the variables and reshuffle the question deck
+`function runClock ()` starts a setInterval that sets the countdown timer in motion
+`function stopClock()` clears the interval set in the `runClock()` function
+`function populateQuizCard ()` populates the quiz card with a question and 4 possible answers
+`function recordScore(event)` records the user's latest score, sorts it along with all historical scores, and takes one parameter, the submission event, to prevent the default behavior.
+`function showScores ()` toggles to the high scores card and populates it with the high scores saved to local storage
+`function clearScores()` 
+
 ## Outstanding Updates
 [] Highscore sorting
 [] description of each function in Readme

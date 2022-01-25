@@ -14,25 +14,6 @@ var initialsEl = document.querySelector("#initials-collection"); //creating a
 
 
 
-// calling recorded scores from local storage
-if(localStorage.getItem("allscores")) {
-    var allscores = JSON.parse(localStorage.getItem("allscores"));
-}
-else{
-    var allscores = [{
-        initials: "",
-        score: "",
-    },
-    {
-        initials: "",
-        score: ""
-    }]
-
-    //erasing the empty objects which were placeholders anyway
-    allscores.pop();
-    allscores.pop();
-}
-
 // O T H E R    V A R I A B L E S
 
 var runningClock; //creating with global scope in order to access between functions
@@ -138,17 +119,26 @@ function populateQuizCard () { //populates the quiz card with a fresh question
 }
 
 function recordScore(event){
+    
     event.preventDefault();
 
-    let myscore = {
+    let myscore = { //capture the current score and initials for saving to local storage
         initials: initialsEl.value,
         score: document.querySelector("#time-remaining").textContent
     }
+
+    if (localStorage.getItem("allscores")){ //if existing scores detected
+        let allscores = JSON.parse(localStorage.getItem("allscores"));
+        allscores.push(myscore);
+        allscores = sortScores(allscores);
+        localStorage.setItem("allscores", JSON.stringify(allscores));
+    }
+    else { //if no existing scores detected
+        localStorage.setItem("allscores", JSON.stringify([myscore,])); //we have to take care to format the single score as a array of scores, to allow for the potential of future scores later
+    }
     
-    allscores.push(myscore);
-    sortScores(allscores);
+    // sortScores(allscores);
     
-    localStorage.setItem("allscores", JSON.stringify(allscores)); //save out sorted scores to local storage
     showScores();
 }
 
@@ -162,28 +152,32 @@ function showScores (){
     quizCardEl.setAttribute("style", "display: none");
     highscoresCardEl.setAttribute("style", "display: flex");
 
-    //call and display high scores from local storage
-    allscores = JSON.parse(localStorage.getItem("allscores"));
     removeChildNodes(highscoresEl); //we are about to repopulate the highscoresEl below
-    for (i=0; i < allscores.length; i++) {
-        highscoresEl.appendChild(document.createElement("LI"));
-        highscoresEl.children[i].textContent = allscores[i].initials +": "+ allscores[i].score;
+    
+    if (localStorage.getItem("allscores")){ //if high scores are saved to local storage, call and display
+        let scoretransfer = JSON.parse(localStorage.getItem("allscores"));
+            for (i=0; i < scoretransfer.length; i++) {
+                highscoresEl.appendChild(document.createElement("LI"));
+                highscoresEl.children[i].textContent = scoretransfer[i].initials +": "+ scoretransfer[i].score;
+            }
     }
 }
 
 function clearScores(){
-    allscores = [{
-        initials: "",
-        score: "",
-    },
-    {
-        initials: "",
-        score: ""
-    }]
-    allscores.pop();
-    allscores.pop();
+    
+    // allscores = [{
+    //     initials: "",
+    //     score: "",
+    // },
+    // {
+    //     initials: "",
+    //     score: ""
+    // }]
+    // allscores.pop();
+    // allscores.pop();
 
-    localStorage.setItem("allscores", JSON.stringify(allscores));
+    // localStorage.setItem("allscores", JSON.stringify(allscores));
+    localStorage.removeItem("allscores");
     removeChildNodes(highscoresEl);
     showScores();
 }
