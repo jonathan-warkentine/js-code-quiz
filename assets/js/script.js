@@ -93,24 +93,22 @@ function startGame () {
     
     /* SETTING THE STAGE */
     
-    document.querySelector("#time-remaining").textContent = 30; //reset the clock
-
-    //combining the various coding questions into a string of random order
+    //setting up the question setlist
     questionsRandom = assembleQuestions(questionsOrdered);
-    document.querySelector("#timer").setAttribute("style", "display: block;"); //displaying the timer
-    
-    
+    whichQuestion = 0; //reset the question counter
+    //populate the quiz card with a random coding question
+    populateQuizCard();
+
     //toggling to the quiz card
     gamestartCardEl.setAttribute("style", "display: none");
     gameoverCardEl.setAttribute("style", "display: none");
     highscoresCardEl.setAttribute("style", "display: none");
     quizCardEl.setAttribute("style", "display: flex");
-
-    //populate the quiz card with a random coding question
-    populateQuizCard();
     
-    //start the clock
-    runningClock = setInterval(runClock, 1000);
+    //setting up the clock
+    document.querySelector("#time-remaining").textContent = 30; //reset the clock
+    document.querySelector("#timer").setAttribute("style", "display: block;"); //displaying the timer
+    runningClock = setInterval(runClock, 1000); //starting the clock 
 }
 
 function runClock () {
@@ -128,9 +126,8 @@ function runClock () {
 function populateQuizCard () { //populates the quiz card with a fresh question
     document.querySelector("#question").textContent = questionsRandom[whichQuestion].question;
     for (let i=0; i<answersEl.length; i++){
-        answersEl[i].innerHTML = questionsRandom[whichQuestion].answers[i];
+        answersEl[i].textContent = questionsRandom[whichQuestion].answers[i];
     }
-    whichQuestion++;
 }
 
 function recordScore(event){
@@ -182,8 +179,9 @@ function clearScores(){
 
 function checkAnswer(event){
     
-    if (whichQuestion+1>questionsRandom.length){ //if there are no more questions, end the game
+    if (whichQuestion == questionsRandom.length-1){ //if there are no more questions, end the game. Prevents negative scores.
         gameOver();
+        return; //prevent the end of this function which is out of bounds for the number of questions available
     }
     else if (event.target.value == questionsRandom[whichQuestion].correctAns){
         rightAnswer();
@@ -191,20 +189,22 @@ function checkAnswer(event){
     else {
         wrongAnswer();
     }
+    
+    whichQuestion++;
+    populateQuizCard();
+
 }
 
 function wrongAnswer () {
-    popup("Incorrect!");   
+    popup("Incorrect!");
+    setTimeout(clearPopup, 2000); //clears the popup message after a delay
+
     if (document.querySelector("#time-remaining").textContent-10<0) {
-        popup("Incorrect!");
-        setTimeout(clearPopup, 2000); //clears the popup message after a delay
         setTimeout(gameOver, 2000);
+        gameOver();
     }
     else {
         document.querySelector("#time-remaining").textContent-=10;
-        popup("Incorrect!");
-        setTimeout(clearPopup, 2000); //clears the popup message after a delay
-        populateQuizCard();
     }
 
 }
@@ -212,21 +212,22 @@ function wrongAnswer () {
 function rightAnswer(){
     popup("Correct!");
     setTimeout(clearPopup, 2000); //clears the popup message after a delay
-
-    console.log(whichQuestion);
-    populateQuizCard();
 }
 
 function gameOver (){
-    clearInterval(runningClock);
+    
+    //stop and hide clock
+    clearInterval(runningClock); 
     document.querySelector("#timer").setAttribute("style", "display: none;")
     
-    //toggling from the quiz card to the gameover card
-    quizCardEl.setAttribute("style", "display: none");
-    gameoverCardEl.setAttribute("style", "display: flex");   
-
     //carry the timer value to the score value
     document.querySelector("#score").textContent = document.querySelector("#time-remaining").textContent;
+
+    //toggling viewing to the gameover card
+    quizCardEl.setAttribute("style", "display: none");
+    gamestartCardEl.setAttribute("style", "display: none");
+    highscoresCardEl.setAttribute("style", "display: none");
+    gameoverCardEl.setAttribute("style", "display: flex");   
 }
 
 // U T I L I T Y    F U N C T I O N S //
@@ -238,9 +239,7 @@ function removeChildNodes(highscoresEl){
 
 function assembleQuestions (array) { //assembles in a random order the various questions into an array, algorithm borrowed from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 
-    whichQuestion = 0; //let's start from the top
-   
-    let currentIndex = array.length,  randomIndex;
+   let currentIndex = array.length,  randomIndex;
       
     // While there remain elements to shuffle...
     while (currentIndex != 0) {
