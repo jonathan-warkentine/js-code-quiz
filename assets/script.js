@@ -69,7 +69,8 @@ const q5 = {
 }
 
 const questionsOrdered = [q1, q2, q3, q4]; //will be randomized via the assembleQuestions function on the global scope
-
+var questionsRandom; //to be populated within the startGame() function
+var whichQuestion = 0;
 
 
 
@@ -119,7 +120,8 @@ function runClock () {
 }
 
 function populateQuizCard () {
-    document.querySelector("#question").textContent = questionsRandom[0].question;
+    document.querySelector("#question").textContent = questionsRandom[whichQuestion].question;
+    whichQuestion++;
     for (let i=0; i<answersEl.length; i++){
         answersEl[i].innerHTML = questionsRandom[0].answers[i];
     }
@@ -171,15 +173,32 @@ function clearScores(){
     showScores();
 }
 
-function wrongAnswer (event) {
+function checkAnswer(event){
+    if (event.target.value == questionsRandom[whichQuestion].correctAns){
+        rightAnswer();
+    }
+    else {
+        wrongAnswer();
+    }
+}
+
+function wrongAnswer () {
     if (document.querySelector("#time-remaining").textContent-10<0) {
         gameOver();
     }
     else {
         document.querySelector("#time-remaining").textContent-=10;
+        whichQuestion++;
+        populateQuizCard();
     }
 
 
+}
+
+function rightAnswer(){
+    document.querySelector("#popup").setAttribute("style", "display: inline;")
+    whichQuestion++;
+    populateQuizCard();
 }
 
 function gameOver (){
@@ -220,7 +239,7 @@ document.querySelectorAll(".playagain-button").forEach(item => {
 //view highscores button keybinding
 document.querySelectorAll(".view-highscores-button").forEach(item => {
     item.addEventListener("click", event=>{
-    showScores();
+    showScores(event);
     })
 });
 
@@ -233,7 +252,7 @@ calling the wrongAnswer() or rightAnswer() functions accordingly */
 document.querySelectorAll(".answers").forEach(item => {
     item.addEventListener("click", event=>{
     
-    wrongAnswer();
+    checkAnswer(event);
     })
 });
 

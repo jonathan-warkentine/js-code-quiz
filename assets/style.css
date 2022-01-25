@@ -15,6 +15,7 @@ li{
 
 button {
     border-radius: 7px;
+    font-size: large;
     background-color: purple;
     color: white;
 }
@@ -28,7 +29,8 @@ body header{
 
 body main {
     display: flex;
-    justify-content: center;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 
 #timer{
