@@ -8,7 +8,7 @@
 This project seeks to provide the user with an enjoyable way to test and grow their knowledge of JavaScript. The project is deployed at https://jonathan-warkentine.github.io/js-code-quiz/
 
 ## Usage
-![Screenshot]()
+![screenshot](./assets/images/demo.gif)
 
 The app can be accessed via the above-listed URL.
 
