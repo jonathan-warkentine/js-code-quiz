@@ -69,3 +69,8 @@ body main {
     display: inline-block;
 }
 
+#popup{
+    border: none;
+    font-style: italic;
+    padding: 5px;
+}

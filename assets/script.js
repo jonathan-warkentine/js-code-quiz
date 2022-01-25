@@ -51,24 +51,30 @@ const q2 = {
 }
 
 const q3 = {
-    question: "Second Q",
+    question: "Third Q",
     answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
     correctAns: 1,
 }
 
 const q4 = {
-    question: "Second Q",
+    question: "Fourth Q",
     answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
     correctAns: 1,
 }
 
 const q5 = {
-    question: "Second Q",
+    question: "Fifth Q",
     answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
     correctAns: 1,
 }
 
-const questionsOrdered = [q1, q2, q3, q4]; //will be randomized via the assembleQuestions function on the global scope
+const q6 = {
+    question: "Fifth Q",
+    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
+    correctAns: 1,
+}
+
+const questionsOrdered = [q1, q2, q3, q4, q5, q6]; //will be randomized via the assembleQuestions function on the global scope
 var questionsRandom; //to be populated within the startGame() function
 var whichQuestion = 0;
 
@@ -87,10 +93,10 @@ function startGame () {
     
     /* SETTING THE STAGE */
     
-    document.querySelector("#time-remaining").textContent = 100; //reset the clock
+    document.querySelector("#time-remaining").textContent = 30; //reset the clock
 
     //combining the various coding questions into a string of random order
-    questionsRandom = assembleQuestions(questionsOrdered);
+    assembleQuestions();
     document.querySelector("#timer").setAttribute("style", "display: block;"); //displaying the timer
     
     
@@ -150,6 +156,7 @@ function showScores (){
 
     //call and display high scores from local storage
     allscores = JSON.parse(localStorage.getItem("allscores"));
+    removeChildNodes(highscoresEl); //we are about to repopulate the highscoresEl below
     for (i=0; i < allscores.length; i++) {
         highscoresEl.appendChild(document.createElement("LI"));
         highscoresEl.children[i].textContent = allscores[i].initials +": "+ allscores[i].score;
@@ -174,7 +181,11 @@ function clearScores(){
 }
 
 function checkAnswer(event){
-    if (event.target.value == questionsRandom[whichQuestion].correctAns){
+    
+    if (whichQuestion+1>questionsRandom.length){ //if there are no more questions, end the game
+        gameOver();
+    }
+    else if (event.target.value == questionsRandom[whichQuestion].correctAns){
         rightAnswer();
     }
     else {
@@ -183,21 +194,26 @@ function checkAnswer(event){
 }
 
 function wrongAnswer () {
+    popup("Incorrect!");   
     if (document.querySelector("#time-remaining").textContent-10<0) {
-        gameOver();
+        popup("Incorrect!");
+        setTimeout(clearPopup, 2000); //clears the popup message after a delay
+        setTimeout(gameOver, 2000);
     }
     else {
         document.querySelector("#time-remaining").textContent-=10;
-        whichQuestion++;
+        popup("Incorrect!");
+        setTimeout(clearPopup, 2000); //clears the popup message after a delay
         populateQuizCard();
     }
-
 
 }
 
 function rightAnswer(){
-    document.querySelector("#popup").setAttribute("style", "display: inline;")
-    whichQuestion++;
+    popup("Correct!");
+    setTimeout(clearPopup, 2000); //clears the popup message after a delay
+
+    console.log(whichQuestion);
     populateQuizCard();
 }
 
@@ -220,13 +236,22 @@ function removeChildNodes(highscoresEl){
     }
 }
 
-//assembles in a random order the various questions into an array
-function assembleQuestions (questionsOrdered) {
-    for (let i=0; i<2; i++){
+function assembleQuestions () { //assembles in a random order the various questions into an array
+
+    whichQuestion = 0;
+    for (let i=0; i<questionsOrdered.length; i++){
         // password += allowableCharacters.charAt(Math.floor(Math.random() * allowableCharacters.length));
     }
-    const questionsRandom = questionsOrdered;
-    return questionsRandom;
+    questionsRandom = questionsOrdered;
+}
+
+function popup(message){
+    document.querySelector("#popup").textContent = message; // write message to popup element
+    document.querySelector("#popup").setAttribute("style", "display: inline;") //unhide popup element
+}
+
+function clearPopup(){
+    document.querySelector("#popup").setAttribute("style", "display: none;")
 }
 
 /* K E Y   B I N D I N G */
