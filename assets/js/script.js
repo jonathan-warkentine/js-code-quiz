@@ -40,37 +40,37 @@ var runningClock; //creating with global scope in order to access between functi
 //populating a few coding questions
 const q1 = {
     question: "What does the '===' operator represent?",
-    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
+    answers: ["Strict equality", "Loose equality", "Less than or equals", "Double subtraction"],
     correctAns: 1,
 }
 
 const q2 = {
-    question: "Second Q",
-    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
-    correctAns: 1,
+    question: "What is JavaScript?",
+    answers: ["A gaming platform", "JavaScript is a client-side and server-side scripting language inserted into HTML pages and is understood by web browsers. JavaScript is also an Object-based Programming language", "A useful program that only runs on MacOS", "A tasty pastry"],
+    correctAns: 2,
 }
 
 const q3 = {
-    question: "Third Q",
-    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
+    question: "What are JavaScript Data Types?",
+    answers: ["Number, String, Boolean, Object, Undefined", "Big, Small, Huge, Little", "NA, NP, MN, NS", "Global, local, this, item"],
     correctAns: 1,
 }
 
 const q4 = {
-    question: "Fourth Q",
-    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
-    correctAns: 1,
+    question: "Which symbol is used for comments in Javascript?",
+    answers: ["===", "/", "))", "// and /* */"],
+    correctAns: 4,
 }
 
 const q5 = {
-    question: "Fifth Q",
-    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
-    correctAns: 1,
+    question: "What would be the result of 3+2+'7'?",
+    answers: ["The number 12", "the string '3+2+7'", "The string '57'", "The number 5 and the string '7'"],
+    correctAns: 3,
 }
 
 const q6 = {
-    question: "Fifth Q",
-    answers: ["The '===' operator represents strict equality", "The '===' operator represents loose equality", "The '===' operator represents less than or equals", "The '===' operator represents double subtraction"],
+    question: "What is DOM in JavaScript?",
+    answers: ["JavaScript can access all the elements in a web page using the Document Object Model (DOM). The web browser creates a DOM of the webpage when the page is loaded.", "The DOM is a large covering that keeps rain out", "The DOM is a superhighway leading to the various JavaScript suburbs", "The DOM only exists in CSS, not JavaScript"],
     correctAns: 1,
 }
 
@@ -96,7 +96,7 @@ function startGame () {
     document.querySelector("#time-remaining").textContent = 30; //reset the clock
 
     //combining the various coding questions into a string of random order
-    assembleQuestions();
+    questionsRandom = assembleQuestions(questionsOrdered);
     document.querySelector("#timer").setAttribute("style", "display: block;"); //displaying the timer
     
     
@@ -125,12 +125,12 @@ function runClock () {
     
 }
 
-function populateQuizCard () {
+function populateQuizCard () { //populates the quiz card with a fresh question
     document.querySelector("#question").textContent = questionsRandom[whichQuestion].question;
-    whichQuestion++;
     for (let i=0; i<answersEl.length; i++){
-        answersEl[i].innerHTML = questionsRandom[0].answers[i];
+        answersEl[i].innerHTML = questionsRandom[whichQuestion].answers[i];
     }
+    whichQuestion++;
 }
 
 function recordScore(event){
@@ -229,20 +229,32 @@ function gameOver (){
     document.querySelector("#score").textContent = document.querySelector("#time-remaining").textContent;
 }
 
-// U T I L I T Y    F U N C T I O N S
+// U T I L I T Y    F U N C T I O N S //
 function removeChildNodes(highscoresEl){
     while (highscoresEl.firstChild) {
         highscoresEl.removeChild(highscoresEl.firstChild);
     }
 }
 
-function assembleQuestions () { //assembles in a random order the various questions into an array
+function assembleQuestions (array) { //assembles in a random order the various questions into an array, algorithm borrowed from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 
-    whichQuestion = 0;
-    for (let i=0; i<questionsOrdered.length; i++){
-        // password += allowableCharacters.charAt(Math.floor(Math.random() * allowableCharacters.length));
-    }
-    questionsRandom = questionsOrdered;
+    whichQuestion = 0; //let's start from the top
+   
+    let currentIndex = array.length,  randomIndex;
+      
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+      
+          // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+      
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+        }
+      
+        return array;
 }
 
 function popup(message){
