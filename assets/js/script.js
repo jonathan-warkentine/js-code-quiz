@@ -123,6 +123,13 @@ function runClock () {
     
 }
 
+function stopClock() {
+    
+    //stop and hide clock
+    clearInterval(runningClock); 
+    document.querySelector("#timer").setAttribute("style", "display: none;")
+}
+
 function populateQuizCard () { //populates the quiz card with a fresh question
     document.querySelector("#question").textContent = questionsRandom[whichQuestion].question;
     for (let i=0; i<answersEl.length; i++){
@@ -139,12 +146,16 @@ function recordScore(event){
     }
     
     allscores.push(myscore);
+    sortScores(allscores);
     
-    localStorage.setItem("allscores", JSON.stringify(allscores));
+    localStorage.setItem("allscores", JSON.stringify(allscores)); //save out sorted scores to local storage
     showScores();
 }
 
 function showScores (){
+    
+    stopClock(); //if accessed while the game is running, we need to make sure the clock gets stopped
+    
     //toggling from whichever card to to the highscores card
     gameoverCardEl.setAttribute("style", "display: none");
     gamestartCardEl.setAttribute("style", "display: none");
@@ -200,7 +211,7 @@ function wrongAnswer () {
     setTimeout(clearPopup, 2000); //clears the popup message after a delay
 
     if (document.querySelector("#time-remaining").textContent-10<0) {
-        setTimeout(gameOver, 2000);
+        document.querySelector("#time-remaining").textContent = 0; //subtracts any remaining time from the score
         gameOver();
     }
     else {
@@ -217,8 +228,7 @@ function rightAnswer(){
 function gameOver (){
     
     //stop and hide clock
-    clearInterval(runningClock); 
-    document.querySelector("#timer").setAttribute("style", "display: none;")
+    stopClock();
     
     //carry the timer value to the score value
     document.querySelector("#score").textContent = document.querySelector("#time-remaining").textContent;
@@ -263,6 +273,11 @@ function popup(message){
 
 function clearPopup(){
     document.querySelector("#popup").setAttribute("style", "display: none;")
+}
+
+function sortScores(allscores){ //algorithm borrowed from https://www.javascripttutorial.net/array/javascript-sort-an-array-of-objects/
+    return allscores.sort((a, b) => {return b.score - a.score;
+    });
 }
 
 /* K E Y   B I N D I N G */

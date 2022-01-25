@@ -1,4 +1,9 @@
 /* general styling */
+*{
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
 body {
     margin: 1%;
     display: flex;

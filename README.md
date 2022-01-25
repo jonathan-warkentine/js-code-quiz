@@ -23,10 +23,10 @@ If all questions have been attempted, or if the time remaining gets to 0, then g
 
 The CSS styling is responsive, adapting for viewing on mobile devices.
 
-## Tests
-If the user attempts to copy the password by clicking *before* a password has been generated, the copy-by-clicking mechanism is short circuited and nothing happens.
-
-If the user attempts to generate a password *without* uppercase, lowercase, symbols, or numbers, an error alert notifies the user that at least one option must be selected.
+## Outstanding Updates
+[] Highscore sorting
+[] description of each function in Readme
+[] introduce a smoother popup feature with fading
 
 ## License
 This project is fully open source.
