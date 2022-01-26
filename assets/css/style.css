@@ -1,4 +1,9 @@
 /* general styling */
+:root {
+    --button-bg-color: purple;
+    --card-bg-color:lightgrey;
+}
+
 *{
     font-family: 'Courier New', Courier, monospace;
 
@@ -21,7 +26,7 @@ li{
 button {
     border-radius: 7px;
     font-size: large;
-    background-color: purple;
+    background-color: var(--button-bg-color);
     color: white;
     display: inline-block;
 }
@@ -55,6 +60,9 @@ body main {
     /* quiz card border */
     border: 1px black solid;
     border-radius: 10px;
+
+    /* background */
+    background-color: var(--card-bg-color);
 }
 
 .card h2 {
@@ -80,6 +88,7 @@ body main {
     font-style: italic;
     padding: 5px;
     display: inline;
+    background-color: white;
 }
 
 #highscores-list{
