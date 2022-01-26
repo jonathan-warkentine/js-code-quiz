@@ -48,8 +48,9 @@ There a total of 16 functions in this application:
 ## Outstanding Updates
 - [x] Highscore sorting
 - [x] description of each function in Readme
-- [ ] introduce a smoother popup feature with fading?
+- [x] introduce a smoother popup feature with fading?
 - [ ] more interesting background/styling
+- [ ] incorporate element.hidden = true/false instead of my complicated JS styling manipulations (.setAttribute("style", "display: none"))?
 
 ## License
 This project is fully open source.
