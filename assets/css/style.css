@@ -79,6 +79,7 @@ body main {
     border: none;
     font-style: italic;
     padding: 5px;
+    display: inline;
 }
 
 #highscores-list{
